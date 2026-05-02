@@ -20,7 +20,7 @@ class ControlModule:
             for estado_actual in range(numero_estados):
                 for indice_efecto, desplazamiento in enumerate(efectos_acciones[accion]):
                     estado_siguiente = estado_actual + desplazamiento
-                    #Los bordes, evitar salirnos del rango, para evitar
+                    #Los bordes, evitar salirnos del rango, para evitar valores no válidos
                     if estado_siguiente < 0:
                         estado_siguiente = 0
                     elif estado_siguiente >= numero_estados:
@@ -38,7 +38,7 @@ class ControlModule:
         for accion in range(numero_acciones):
             for estado_actual in range(numero_estados):
                 for estado_siguiente in range(numero_estados):
-                    #Normalizacion de la potencia
+                    #Normalizacion de la potencia del estado siguiente
                     potencia_estado_siguiente = estado_siguiente / numero_estados
                     #Definimos lo que falta para la demanda requerida
                     diferencia = demanda_actual - potencia_estado_siguiente
@@ -48,6 +48,13 @@ class ControlModule:
                         coste = -diferencia
                     else:
                         coste = diferencia
+                    #Normalizacion de la potencia del estado actual para ver si nos alejamos o acercamos a la demanda
+                    potencia_estado_actual = estado_actual / numero_estados
+                    #Añadimos penalizaciones de las acciones claramente inútiles en base a la demanda que tenemos actualmente
+                    if potencia_estado_actual < demanda_actual and accion == 0:
+                        coste = coste *2
+                    elif potencia_estado_actual > demanda_actual and accion == 2:
+                        coste = coste * 2
                     #ASPECTO IMPORTANTE A PREGUNTAR AL PROFESOR: mdptoolbox trabaja con recompensas/costes. Implementamos con recompensas
                     matriz_recompensas[accion, estado_actual, estado_siguiente] = -coste
         return matriz_recompensas
