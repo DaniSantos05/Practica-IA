@@ -14,6 +14,14 @@ class ControlModule:
         matriz_transicion = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
         #Desplazamientos posibles de cada acción correspondientemente, 1º Decrementar, 2º Mantener y 3º Incrementar
         efectos_acciones = [[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]
+        #Recorremos  cada acción, cada estado actual y cada posible efecto de esa acción, para cada calculamos el estado al que se llegaría y
+        #ponemos en la matriz la probabilidad a la que correspondería el efecto
+        for accion in range(numero_acciones):
+            for estado_actual in range(numero_estados):
+                for indice_efecto, desplazamiento in enumerate(efectos_acciones[accion]):
+                    estado_siguiente = estado_actual + desplazamiento
+                    matriz_transicion[accion, estado_actual, estado_siguiente] += probabilidades[accion, indice_efecto]
+
         return matriz_transicion
 
 
