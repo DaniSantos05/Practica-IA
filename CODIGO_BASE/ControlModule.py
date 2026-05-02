@@ -12,7 +12,10 @@ class ControlModule:
         """ Function that generates the probabilities (transition) matrix """
         #Creamos la matriz llena de ceros como dice el enunciado siendo: nº acciones x nº estados x nº estados
         matriz_transicion = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
+        #Desplazamientos posibles de cada acción correspondientemente, 1º Decrementar, 2º Mantener y 3º Incrementar
+        efectos_acciones = [[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]
         return matriz_transicion
+
 
 
     @staticmethod
