@@ -28,13 +28,12 @@ class ControlModule:
                     matriz_transicion[accion, estado_actual, estado_siguiente] += probabilidades[accion, indice_efecto]
         return matriz_transicion
 
-
-
     @staticmethod
-    def generate_R() -> np.ndarray:
+    def generate_R(demanda_actual: np.float64, numero_estados: np.int32, numero_acciones: np.int32) -> np.ndarray:
         """ Function that generates the rewards (costs) matrix """
-        ### TO BE COMPLETED BY THE STUDENTS ###
-        ...
+        #Creamos la matriz llena de ceros como dice el enunciado siendo: nº acciones x nº estados x nº estados
+        matriz_recompensas = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
+        return matriz_recompensas
 
     @staticmethod
     def control_iteration() -> np.int32:
