@@ -33,6 +33,23 @@ class ControlModule:
         """ Function that generates the rewards (costs) matrix """
         #Creamos la matriz llena de ceros como dice el enunciado siendo: nº acciones x nº estados x nº estados
         matriz_recompensas = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
+        #Recorremos todas las transiciones del MDP en cada acción, estado actual y siguiente estado vemos la recompensa
+        #basandonos en lo cerca que queda el estado siguiente respecto a la demanda que queremos.
+        for accion in range(numero_acciones):
+            for estado_actual in range(numero_estados):
+                for estado_siguiente in range(numero_estados):
+                    #Normalizacion de la potencia
+                    potencia_estado_siguiente = estado_siguiente / numero_estados
+                    #Definimos lo que falta para la demanda requerida
+                    diferencia = demanda_actual - potencia_estado_siguiente
+                    #No nos importa si el reactor queda por debajo o encima, la dejamos positiva la diferencia para
+                    #evaluar bien cuanta es la diferencia respecto a la demanda
+                    if diferencia < 0:
+                        coste = -diferencia
+                    else:
+                        coste = diferencia
+                    #ASPECTO IMPORTANTE A PREGUNTAR AL PROFESOR: mdptoolbox trabaja con recompensas/costes. Implementamos con recompensas
+                    matriz_recompensas[accion, estado_actual, estado_siguiente] = -coste
         return matriz_recompensas
 
     @staticmethod
