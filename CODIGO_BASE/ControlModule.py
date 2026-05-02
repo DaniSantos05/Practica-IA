@@ -8,10 +8,12 @@ class ControlModule:
         pass
 
     @staticmethod
-    def generate_P() -> np.ndarray:
+    def generate_P(probabilidades: np.ndarray, numero_estados: np.int32, numero_acciones: np.int32) -> np.ndarray:
         """ Function that generates the probabilities (transition) matrix """
-        ### TO BE COMPLETED BY THE STUDENTS ###
-        ...
+        #Creamos la matriz llena de ceros como dice el enunciado siendo: nº acciones x nº estados x nº estados
+        matriz_transicion = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
+        return matriz_transicion
+
 
     @staticmethod
     def generate_R() -> np.ndarray:
