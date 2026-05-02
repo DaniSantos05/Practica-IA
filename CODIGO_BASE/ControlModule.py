@@ -20,8 +20,12 @@ class ControlModule:
             for estado_actual in range(numero_estados):
                 for indice_efecto, desplazamiento in enumerate(efectos_acciones[accion]):
                     estado_siguiente = estado_actual + desplazamiento
+                    #Los bordes, evitar salirnos del rango, para evitar
+                    if estado_siguiente < 0:
+                        estado_siguiente = 0
+                    elif estado_siguiente >= numero_estados:
+                        estado_siguiente = numero_estados - 1
                     matriz_transicion[accion, estado_actual, estado_siguiente] += probabilidades[accion, indice_efecto]
-
         return matriz_transicion
 
 
