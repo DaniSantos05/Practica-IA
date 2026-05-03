@@ -61,7 +61,7 @@ class ControlModule:
         return matriz_recompensas
 
     @staticmethod
-    def control_iteration(matriz_transicion: np.ndarray, demanda_actual: np.float64, estado_actual = np.int32, numero_estados: np.int32, numero_acciones: np.int32, factor_descuento: np.float64) -> np.int32:
+    def control_iteration(matriz_transicion: np.ndarray, demanda_actual: np.float64, estado_actual: np.int32, numero_estados: np.int32, numero_acciones: np.int32, factor_descuento: np.float64) -> np.int32:
         """ Function that computes one control-iteration """
         #Una cosa importante para contextualizar: Hemos planteado que supuestamente mdptoolbox trabaja con recompensas y antes ya en generate_R
         #transformamos de costes a recompensas, entonces en el enunciado nos piden minimizar costes y con este enfoque que
