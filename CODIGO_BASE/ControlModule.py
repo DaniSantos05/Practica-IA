@@ -18,7 +18,8 @@ class ControlModule:
         #ponemos en la matriz la probabilidad a la que correspondería el efecto
         for accion in range(numero_acciones):
             for estado_actual in range(numero_estados):
-                for indice_efecto, desplazamiento in enumerate(efectos_acciones[accion]):
+                for indice_efecto in range(len(efectos_acciones[accion])):
+                    desplazamiento = efectos_acciones[accion][indice_efecto]
                     estado_siguiente = estado_actual + desplazamiento
                     #Los bordes, evitar salirnos del rango, para evitar valores no válidos
                     if estado_siguiente < 0:
