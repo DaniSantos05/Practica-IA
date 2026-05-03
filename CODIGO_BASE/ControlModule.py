@@ -60,17 +60,17 @@ class ControlModule:
         return matriz_recompensas
 
     @staticmethod
-    def control_iteration() -> np.int32:
+    def control_iteration(matriz_transicion: np.ndarray, demanda_actual: np.float64, estado_actual = np.int32, numero_estados: np.int32, numero_acciones: np.int32, factor_descuento: np.float64) -> np.int32:
         """ Function that computes one control-iteration """
-        ### TO BE COMPLETED BY THE STUDENTS ###
-        ...
+        #Creamos la matriz de recompensas para la iteración actual en base a la demanda actual
+        matriz_recompensas = ControlModule.generate_R(demanda_actual = demanda_actual, numero_estados = numero_estados, numero_acciones = numero_acciones)
 
     @staticmethod
     def control_loop(demand: np.ndarray, 
-                     probs: np.ndarray,
-                     n_states: np.int32, 
-                     n_actions: np.int32,
-                     gamma: np.float64) -> np.ndarray:
+                     probabilidades: np.ndarray,
+                     numero_estados: np.int32,
+                     numero_acciones: np.int32,
+                     factor_descuento: np.float64) -> np.ndarray:
         """ Function that computes all the required iterations (control-loop) to satisfy the power demand """
         ### TO BE COMPLETED BY THE STUDENTS ###
 
