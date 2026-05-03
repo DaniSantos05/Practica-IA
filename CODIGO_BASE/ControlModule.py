@@ -54,6 +54,8 @@ class ControlModule:
                     elif potencia_estado_actual > demanda_actual and accion == 2:
                         coste = coste * 2
                     #ASPECTO IMPORTANTE A PREGUNTAR AL PROFESOR: mdptoolbox trabaja con recompensas/costes. Implementamos con recompensas
+                    #multiplicamos por menos 1, porque el mdptoolbox trabaja con recompensas
+                    #por tanto al hacer esto, cuanto mayor sea el coste, menor sera la recompensa
                     matriz_recompensas[accion, estado_actual, estado_siguiente] = -coste
         return matriz_recompensas
 
@@ -65,6 +67,16 @@ class ControlModule:
         #hemos planteado será basicamente maximizar recompensas.
         #Creamos la matriz de recompensas para la iteración actual en base a la demanda actual
         matriz_recompensas = ControlModule.generate_R(demanda_actual = demanda_actual, numero_estados = numero_estados, numero_acciones = numero_acciones)
+        #configuramos el algoritmo de resolucion del MDP mediante esta funcion, que aplica la ecuacion de bellman
+        #y ademas genera la politica optima, pero aun no esta inicializado, para que haga todos los calculo
+        r = mdptoolbox.mdp.ValueIteration(matriz_transicion,matriz_recompensas,factor_descuento)
+        #ejecutamos el algoritmo y nos calcula la politica optima
+        r.run()
+        #Le pedimos que nos de la politica optima y la guardamos en esta variable
+        politica_optima = r.policy
+        #pedimos que nos de la politica optima del estado actual
+        mejor_accion = politica_optima[estado_actual]
+        return np.int32(mejor_accion)
 
     @staticmethod
     def control_loop(demand: np.ndarray, 
