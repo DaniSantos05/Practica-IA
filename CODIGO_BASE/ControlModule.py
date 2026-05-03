@@ -80,45 +80,37 @@ class ControlModule:
         return np.int32(mejor_accion)
 
     @staticmethod
-    def control_loop(demanda: np.ndarray,
-                     probabilidades: np.ndarray,
-                     numero_estados: np.int32,
-                     numero_acciones: np.int32,
-                     factor_descuento: np.float64) -> np.ndarray:
+    def control_loop(demand: np.ndarray,
+                     probs: np.ndarray,
+                     n_states: np.int32,
+                     n_actions: np.int32,
+                     gamma: np.float64) -> np.ndarray:
         """ Function that computes all the required iterations (control-loop) to satisfy the power demand """
-        #creamos la matriz de transicion P
-        matriz_transicion = ControlModule.generate_P(probabilidades, numero_estados, numero_acciones)
-
-        #creamos el array de ceros donde guardaremos la potencia que entrega el reactor en cada instante.
-        respuesta = np.zeros_like(demanda, dtype=np.float64)
-
-        #inicializamos el estado inicial del reactor en 0 porque se acaba de encender y definimos los efectos reales de las acciones.
+        #Creamos la matriz de transicion P
+        matriz_transicion = ControlModule.generate_P(probs, n_states, n_actions)
+        #Creamos el array de ceros donde guardaremos la potencia que entrega el reactor en cada instante.
+        respuesta = np.zeros_like(demand, dtype=np.float64)
+        #Inicializamos el estado inicial del reactor en 0 porque se acaba de encender y definimos los efectos reales de las acciones.
         estado_actual = 0
-        #efectos: decrease [-2,-1,0], mantain [-1,0,1], increase [0,1,2].
+        #Efectos: decrease [-2,-1,0], mantain [-1,0,1], increase [0,1,2].
         efectos_acciones = [[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]
-
-        #recorremos cada punto de la demanda
-        for t in range(len(demanda)):
-            demanda_actual_t = demanda[t]
-
-            #el MDP decide que acción es la mejor para el estado y demanda actual.
-            accion_optima = ControlModule.control_iteration(matriz_transicion, demanda_actual_t, estado_actual, numero_estados,numero_acciones,factor_descuento)
-
-            #el reactor ejecuta la acción, pero con un componente de azar en funcion de las probabiladesde acierto y fallo de la accion elegida
+        #Recorremos cada punto de la demanda
+        for t in range(len(demand)):
+            demanda_actual_t = demand[t]
+            #El MDP decide que acción es la mejor para el estado y demanda actual.
+            accion_optima = ControlModule.control_iteration(matriz_transicion, demanda_actual_t, estado_actual, n_states,n_actions,gamma)
+            #El reactor ejecuta la acción, pero con un componente de azar en funcion de las probabiladesde acierto y fallo de la accion elegida
             #con np.random.choice eligimos uno de los 3 efectos posibles según las probabilidades del reactor
-            probs_de_la_accion = probabilidades[accion_optima]
-            desplazamiento_real = np.random.choice(efectos_acciones[accion_optima], probs_de_la_accion)
-            #actualizamos el estado
+            probs_de_la_accion = probs[accion_optima]
+            desplazamiento_real = np.random.choice(efectos_acciones[accion_optima], p=probs_de_la_accion)
+            #Actualizamos el estado
             estado_actual += desplazamiento_real
-
-            #comprobamos los límites para no salirnos del rango 0-99
+            #Comprobamos los límites para no salirnos del rango 0-99
             if estado_actual < 0:
                 estado_actual = 0
-            elif estado_actual >= numero_estados:
-                estado_actual = numero_estados - 1
-
-            #guardamos la potencia normalizada
-            respuesta[t] = estado_actual / numero_estados
-
-        #devolvemos la serie completa de la respuesta del reactor
+            elif estado_actual >= n_states:
+                estado_actual = n_states - 1
+            #Guardamos la potencia normalizada
+            respuesta[t] = estado_actual / n_states
+        #Devolvemos la serie completa de la respuesta del reactor
         return respuesta
