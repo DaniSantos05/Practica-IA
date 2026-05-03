@@ -45,10 +45,7 @@ class ControlModule:
                     diferencia = demanda_actual - potencia_estado_siguiente
                     #No nos importa si el reactor queda por debajo o encima, la dejamos positiva la diferencia para
                     #evaluar bien cuanta es la diferencia respecto a la demanda
-                    if diferencia < 0:
-                        coste = -diferencia
-                    else:
-                        coste = diferencia
+                    coste = np.abs(diferencia)
                     #Normalizacion de la potencia del estado actual para ver si nos alejamos o acercamos a la demanda
                     potencia_estado_actual = estado_actual / numero_estados
                     #Añadimos penalizaciones de las acciones claramente inútiles en base a la demanda que tenemos actualmente
