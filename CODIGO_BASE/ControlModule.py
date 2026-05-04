@@ -53,6 +53,8 @@ class ControlModule:
                         coste = coste *2
                     elif potencia_estado_actual > demanda_actual and accion == 2:
                         coste = coste * 2
+                    #elif potencia_estado_actual == demanda_actual and (accion == 0 or accion == 2):
+                        #coste = coste *2
                     #ASPECTO IMPORTANTE A PREGUNTAR AL PROFESOR: mdptoolbox trabaja con recompensas/costes. Implementamos con recompensas
                     #multiplicamos por menos 1, porque el mdptoolbox trabaja con recompensas
                     #por tanto al hacer esto, cuanto mayor sea el coste, menor sera la recompensa
