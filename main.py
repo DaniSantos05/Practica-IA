@@ -1,8 +1,6 @@
 # Import required dependencies
-import numpy as np
 import argparse
 import json
-from Reactor import Reactor
 from ControlModule import ControlModule
 from DemandGenerator import generate_demand
 from Metrics import *
