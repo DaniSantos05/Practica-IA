@@ -90,10 +90,12 @@ class ControlModule:
         """ Function that computes all the required iterations (control-loop) to satisfy the power demand """
         #Creamos la matriz de transicion P
         matriz_transicion = ControlModule.generate_P(probs, n_states, n_actions)
-        #Creamos el array de ceros donde guardaremos la potencia que entrega el reactor en cada instante.
+        #Creamos la lista de ceros donde guardaremos la potencia que entrega el reactor en cada instante.
         respuesta = np.zeros_like(demand, dtype=np.float64)
-        #Inicializamos el estado inicial del reactor en 0 porque se acaba de encender y definimos los efectos reales de las acciones.
-        estado_actual = 0
+        #Inicializamos el estado inicial del reactor en el nivel inicial de la demanda y definimos los efectos reales de las acciones.
+        estado_actual = int(demand[0] * n_states)
+        #realizamos este min, porque la demanda puede tener el valor 1, por tanto al multiplicarlo por 100, si la demanda es 1 nos daria un estado fuera del rango, este min lo usamos para controlar esto
+        estado_actual = min(estado_actual, n_states - 1)
         #Efectos: decrease [-2,-1,0], mantain [-1,0,1], increase [0,1,2].
         efectos_acciones = [[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]
         #Recorremos cada punto de la demanda
