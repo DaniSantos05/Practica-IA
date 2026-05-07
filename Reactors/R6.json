@@ -1,0 +1,8 @@
+{
+    "model": "R-PERFECTO",
+    "probabilities": {
+        "decrease": [0.0, 1.0, 0.0],
+        "maintain": [0.0, 1.0, 0.0],
+        "increase": [0.0, 1.0, 0.0]
+    }
+}
