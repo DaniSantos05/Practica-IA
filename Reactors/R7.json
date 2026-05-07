@@ -1,0 +1,12 @@
+{
+    "model": "R-PMAX-MUY-ALTA",
+    "effective_section": 50.0, 
+    "neutron_flux": 5e16, 
+    "core_volume": 9.42e9, 
+    "fision_energy": 3.2e-10, 
+    "probabilities": { 
+        "decrease": [0.0, 1.0, 0.0], 
+        "maintain": [0.0, 1.0, 0.0], 
+        "increase": [0.0, 1.0, 0.0]
+    } 
+}
