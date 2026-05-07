@@ -55,6 +55,71 @@
                      "0.9",                                 // Discount factor employed in the MDP
                      "--random-seed",
                      "42"]                                  // Random seed for the experiment
+        },
+        {
+            "name": "Test_04",                              // Name of the current test
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",        // Main Python file (do not modify)
+            "console": "integratedTerminal",
+            "args": ["--input-reactor", 
+                     "${workspaceFolder}/Reactors/R4.json", // Path to the reactor's JSON definition
+                     "--gamma",
+                     "0.9",                                 // Discount factor employed in the MDP
+                     "--random-seed",
+                     "42"]                                  // Random seed for the experiment
+        },
+        {
+            "name": "Test_05",                              // Name of the current test
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",        // Main Python file (do not modify)
+            "console": "integratedTerminal",
+            "args": ["--input-reactor", 
+                     "${workspaceFolder}/Reactors/R5.json", // Path to the reactor's JSON definition
+                     "--gamma",
+                     "0.9",                                 // Discount factor employed in the MDP
+                     "--random-seed",
+                     "42"]                                 // Random seed for the experiment
+        },
+        {
+            "name": "Test_06",                              // Name of the current test
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",        // Main Python file (do not modify)
+            "console": "integratedTerminal",
+            "args": ["--input-reactor", 
+                     "${workspaceFolder}/Reactors/R6.json", // Path to the reactor's JSON definition
+                     "--gamma",
+                     "0.9",                                 // Discount factor employed in the MDP
+                     "--random-seed",
+                     "42"]                                  // Random seed for the experiment
+        },
+        {
+            "name": "Test_07",                              // Name of the current test
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",        // Main Python file (do not modify)
+            "console": "integratedTerminal",
+            "args": ["--input-reactor", 
+                     "${workspaceFolder}/Reactors/R7.json", // Path to the reactor's JSON definition
+                     "--gamma",
+                     "0.9",                                 // Discount factor employed in the MDP
+                     "--random-seed",
+                     "42"]                                  // Random seed for the experiment
+        },
+        {
+            "name": "Test_08",                              // Name of the current test
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",        // Main Python file (do not modify)
+            "console": "integratedTerminal",
+            "args": ["--input-reactor", 
+                     "${workspaceFolder}/Reactors/R8.json", // Path to the reactor's JSON definition
+                     "--gamma",
+                     "0.9",                                 // Discount factor employed in the MDP
+                     "--random-seed",
+                     "42"]                                  // Random seed for the experiment
         }
     ]
 }
