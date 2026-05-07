@@ -39,11 +39,17 @@ class Reactor:
 
     def compute_power(self, control_bars_insertion: np.float64) -> np.float64:
         """ Computes the power delivered (%) by the reactor based on the % of control-bars inserted """
-        control_bars_insertion = np.clip(control_bars_insertion, 0.0, 1.0)
+        if control_bars_insertion < 0:
+            control_bars_insertion = 0
+        elif control_bars_insertion > 1:
+            control_bars_insertion = 1
         return np.exp(-self.k * control_bars_insertion)
     
     def compute_control_bars_insertion(self, power: np.float64) -> np.float64:
         """ Computes the % of controls-bars inserted based on the % of power delivered by the reactor """
-        min_power = self.compute_power(1.0)
-        power = np.clip(power, min_power, 1.0)
+        min_power = self.compute_power(1)
+        if power < min_power:
+            power = min_power
+        elif power > 1:
+            power = 1
         return -np.log(power) / self.k
