@@ -35,7 +35,7 @@ class Reactor:
     
     def compute_k(self) -> np.float64:
         """ Computes the value of the k-constant """
-        return -np.log(1e-6 / self.max_power)
+        return -np.log(10**(-6) / self.max_power)
 
     def compute_power(self, control_bars_insertion: np.float64) -> np.float64:
         """ Computes the power delivered (%) by the reactor based on the % of control-bars inserted """
