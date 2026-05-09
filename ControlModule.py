@@ -100,7 +100,7 @@ class ControlModule:
             demanda_actual_t = demand[t]
             #El MDP decide que acción es la mejor para el estado y demanda actual.
             accion_optima = ControlModule.control_iteration(matriz_transicion, demanda_actual_t, estado_actual, n_states,n_actions,gamma)
-            #El reactor ejecuta la acción, pero con un componente de azar en funcion de las probabiladesde acierto y fallo de la accion elegida
+            #El reactor ejecuta la acción, pero con un componente de azar en funcion de las probabilidades de acierto y fallo de la accion elegida
             #con np.random.choice elegimos uno de los 3 efectos posibles según las probabilidades del reactor
             probs_de_la_accion = probs[accion_optima]
             desplazamiento_real = np.random.choice(efectos_acciones[accion_optima], p=probs_de_la_accion)
