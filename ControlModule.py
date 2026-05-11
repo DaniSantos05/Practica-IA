@@ -35,29 +35,26 @@ class ControlModule:
         #Creamos la matriz llena de ceros como dice el enunciado siendo: nº acciones x nº estados x nº estados
         matriz_recompensas = np.zeros((numero_acciones, numero_estados, numero_estados), dtype=np.float64)
         #Recorremos todas las transiciones del MDP en cada acción, estado actual y siguiente estado vemos la recompensa
-        #basandonos en lo cerca que queda el estado siguiente respecto a la demanda que queremos.
+        #basándonos en lo cerca que queda el estado siguiente respecto a la demanda que queremos.
         for accion in range(numero_acciones):
             for estado_actual in range(numero_estados):
                 for estado_siguiente in range(numero_estados):
-                    #Normalizacion de la potencia del estado siguiente
+                    #Normalización de la potencia del estado siguiente
                     potencia_estado_siguiente = estado_siguiente / numero_estados
                     #Definimos lo que falta para la demanda requerida
                     diferencia = demanda_actual - potencia_estado_siguiente
                     #No nos importa si el reactor queda por debajo o encima, la dejamos positiva la diferencia para
                     #evaluar bien cuanta es la diferencia respecto a la demanda
                     coste = np.abs(diferencia)
-                    #Normalizacion de la potencia del estado actual para ver si nos alejamos o acercamos a la demanda
+                    #Normalización de la potencia del estado actual para ver si nos alejamos o acercamos a la demanda
                     potencia_estado_actual = estado_actual / numero_estados
                     #Añadimos penalizaciones de las acciones claramente inútiles en base a la demanda que tenemos actualmente
                     if potencia_estado_actual < demanda_actual and accion == 0:
                         coste = coste *2
                     elif potencia_estado_actual > demanda_actual and accion == 2:
                         coste = coste * 2
-                    #elif potencia_estado_actual == demanda_actual and (accion == 0 or accion == 2):
-                        #coste = coste *2
-                    #ASPECTO IMPORTANTE A PREGUNTAR AL PROFESOR: mdptoolbox trabaja con recompensas/costes. Implementamos con recompensas
-                    #multiplicamos por menos 1, porque el mdptoolbox trabaja con recompensas
-                    #por tanto al hacer esto, cuanto mayor sea el coste, menor sera la recompensa
+                    #Multiplicamos por menos 1, porque el mdptoolbox trabaja con recompensas
+                    #Al hacer esto, cuanto mayor sea el coste, menor será la recompensa
                     matriz_recompensas[accion, estado_actual, estado_siguiente] = -coste
         return matriz_recompensas
 
@@ -72,12 +69,12 @@ class ControlModule:
         #configuramos el algoritmo de resolucion del MDP mediante esta funcion, que aplica la ecuacion de bellman
         #y ademas genera la politica optima, pero aun no esta inicializado, para que haga todos los calculo
         r = mdptoolbox.mdp.ValueIteration(matriz_transicion,matriz_recompensas,factor_descuento)
-        #ejecutamos el algoritmo y nos calcula la politica optima
+        #Ejecutamos el algoritmo y nos calcula la politica optima
         r.run()
         #Le pedimos que nos de la politica optima y la guardamos en esta variable
         politica_optima = r.policy
-        #pedimos que nos de la politica optima del estado actual
-        #que sera aquella que nos de la maxima recompensa
+        #Pedimos que nos de la politica optima del estado actual
+        #que será aquella que nos de la maxima recompensa
         mejor_accion = politica_optima[estado_actual]
         return np.int32(mejor_accion)
 
@@ -96,15 +93,15 @@ class ControlModule:
         estado_actual = int(demand[0] * n_states)
         #realizamos este min, porque la demanda puede tener el valor 1, por tanto al multiplicarlo por 100, si la demanda es 1 nos daria un estado fuera del rango, este min lo usamos para controlar esto
         estado_actual = min(estado_actual, n_states - 1)
-        #Efectos: decrease [-2,-1,0], mantain [-1,0,1], increase [0,1,2].
+        #Efectos: decrease [-2,-1,0], maintain [-1,0,1], increase [0,1,2].
         efectos_acciones = [[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]
         #Recorremos cada punto de la demanda
         for t in range(len(demand)):
             demanda_actual_t = demand[t]
             #El MDP decide que acción es la mejor para el estado y demanda actual.
             accion_optima = ControlModule.control_iteration(matriz_transicion, demanda_actual_t, estado_actual, n_states,n_actions,gamma)
-            #El reactor ejecuta la acción, pero con un componente de azar en funcion de las probabiladesde acierto y fallo de la accion elegida
-            #con np.random.choice eligimos uno de los 3 efectos posibles según las probabilidades del reactor
+            #El reactor ejecuta la acción, pero con un componente de azar en funcion de las probabilidades de acierto y fallo de la accion elegida
+            #con np.random.choice elegimos uno de los 3 efectos posibles según las probabilidades del reactor
             probs_de_la_accion = probs[accion_optima]
             desplazamiento_real = np.random.choice(efectos_acciones[accion_optima], p=probs_de_la_accion)
             #Actualizamos el estado
